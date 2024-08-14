@@ -1,33 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useState } from "react";
 import { ItemsContext } from "../ItemsContext";
-import supabase from "../supabaseClient";
 
 export default function Login() {
-    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const { loading, logInAccount } = useContext(ItemsContext);
-    const [session, setSession] = useState(null)
 
-    console.log("Current session:", session);
 
-    const handleSubmit = (e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
         logInAccount(email);
     };
-    console.log("hello inside Login component")
-
-    useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setSession(session)
-
-            if (session) {
-                navigate("/");
-            }
-        }).catch((e) => {
-            console.error("Failed to retrieve session: ", e.message);
-        });
-    }, [navigate]);
 
     return (
         <div className="container">
@@ -39,7 +21,7 @@ export default function Login() {
                         </div>
 
                         <div className="card-body">
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={handleLogin}>
                                 <div className="mb-4">
                                     <label htmlFor="exampleInputEmail1" className="form-label">
                                         Email Address

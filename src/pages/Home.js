@@ -22,9 +22,7 @@ export default function Home() {
       console.log(err);
     }
   };
-  // const user = supabase.auth.user();
-  // await supabase.from("todo").insert({item, userId: user?.id});
-  // // insert an object with key value pair format, where key is the column name of the table
+
   return (
     <div className="container">
       <div className="row justify-content-center mt-5">

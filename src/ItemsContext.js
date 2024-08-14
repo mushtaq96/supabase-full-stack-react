@@ -15,13 +15,8 @@ export function ItemsContextProvider({ children }) {
         setLoading(true);
         try {
             // supabase method to send the magic link to the email provided
-            const { data, error } = await supabase.auth.signInWithOtp({
-                email,
-                options: {
-                    // Set this to false if you do not want the user to be automatically signed up
-                    shouldCreateUser: false,
-                    emailRedirectTo: '/', // Optional URL to redirect to after successful sign in
-                },
+            const { error } = await supabase.auth.signInWithOtp({
+                email
             });
 
             if (error) throw error; //check if there was an error fetching the data and move the execution to the catch block

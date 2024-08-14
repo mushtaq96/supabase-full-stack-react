@@ -1,47 +1,34 @@
 import "bootstrap/dist/css/bootstrap.css";
 import { useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
-// import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Home from "./pages/Home";
 import supabase from "./supabaseClient";
-import Register from "./pages/Register";
-import { isSatisfiesExpression } from "typescript";
+import Account from "./pages/Account";
+import { Routes, Route } from "react-router-dom";
+
 
 function App() {
-  const navigate = useNavigate();
-  const [user, setUser] = useState(null)
   const [session, setSession] = useState(null)
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user)
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
     })
 
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
     })
+  }, [])
 
-    if (!user) {
-      console.log("new user, navigating to register");
-      navigate("/register");
-    } else {
-      // existing user
-      //if user is not authenticated then go to login page
-      if (session === null) {
-        navigate("/login")
-      }
-    }
-  }, []);
 
   return (
-    <>
+    <div className="container" style={{ padding: '50px 0 100px 0' }}>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/" element={!session ? <Login /> : <Account key={session.user.id} session={session} />} />
       </Routes>
-    </>
+    </div>
   );
 }
 
