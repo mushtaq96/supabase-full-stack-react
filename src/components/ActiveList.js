@@ -11,10 +11,25 @@ export default function ActiveList() {
         item: "",
         id: null,
     });
+
     useEffect(() => {
-        supabase.auth.user() !== null && getActiveItems();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        console.log("Attempting to fetch user data...");
+        const fetchUser = async () => {
+            try {
+                const { data: { user }, } = await supabase.auth.getUser();
+                console.log("User data fetched successfully:", user);
+                if (user !== null) {
+                    getActiveItems();
+                }
+            } catch (error) {
+                console.error("Failed to fetch user data:", error);
+            }
+        };
+        fetchUser();
     }, []);
+
+    console.log("this is typeof of activeItems", typeof activeItems);
+    console.log("this is activeItems", activeItems);
 
     return (
         <div>
@@ -23,7 +38,7 @@ export default function ActiveList() {
             ) : activeItems.length < 1 ? (
                 <p className="text-center m-5"> Nothing to display ☹️ </p>
             ) : (
-                activeItems.map((item, index) => (
+                activeItems.map((todo) => (
                     <TodoItem
                         handleEdit={(prevValue) => {
                             setOpenModal(true);
@@ -32,18 +47,12 @@ export default function ActiveList() {
                                 id: prevValue.id,
                             });
                         }}
-                        data={item}
-                        key={index.toString()}
+                        data={todo}
+                        key={todo.id}// use as unique identifier
                     />
                 ))
             )}
 
-            <UpdateItem
-                open={openModal}
-                setOpen={setOpenModal}
-                item={updateData.item}
-                id={updateData.id}
-            />
         </div>
     );
 }

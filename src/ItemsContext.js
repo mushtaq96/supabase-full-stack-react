@@ -30,8 +30,62 @@ export function ItemsContextProvider({ children }) {
         }
     };
 
+    // get all active items by the user
+    const getActiveItems = async () => {
+        setLoading(true);
+        try {
+            // get the user currently logged in
+            const { data: { user }, } = await supabase.auth.getUser();
+            console.log(user)
+
+            const { data, error } = await supabase
+                .from("todo") //the table you want to work with
+                .select("item, done, id") //columns to select from the database
+                .eq("user_id", user?.id) //comparison function to return only data with the user id matching the current logged in user
+                .eq("done", false) //check if the done column is equal to false
+                .order("id", { ascending: false }); // sort the data so the last item comes on top;
+
+            if (error) throw error; //check if there was an error fetching the data and move the execution to the catch block
+            console.log("this is type of data", typeof data)
+            console.log("this is data", data)
+            if (data) setActiveItems(data);
+
+        } catch (error) {
+            alert(error.error_description || error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+
+    // add new row to the database
+    const addItem = async (item) => {
+        setAdding(true);
+        try {
+            // get the user currently logged in
+            const { data: { user }, } = await supabase.auth.getUser();
+            console.log(user)
+
+            const newItem = { item, user_id: user.id };
+            const { error } = await supabase
+                .from("todo")
+                .insert(newItem);
+
+            if (error) throw error;
+
+            await getActiveItems(); //get the new active items list
+
+        } catch (error) {
+            alert(error.error_description || error.message);
+        } finally {
+            setAdding(false);
+        }
+    };
+
+
     return (
-        <ItemsContext.Provider value={{ activeItems, inactiveItems, loading, adding, logInAccount }}>
+        <ItemsContext.Provider value={{ activeItems, inactiveItems, loading, adding, logInAccount, addItem, getActiveItems }}>
             {children}
         </ItemsContext.Provider>
     );
