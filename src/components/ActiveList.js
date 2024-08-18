@@ -28,8 +28,8 @@ export default function ActiveList() {
         fetchUser();
     }, []);
 
-    console.log("this is typeof of activeItems", typeof activeItems);
-    console.log("this is activeItems", activeItems);
+    // console.log("this is typeof of activeItems", typeof activeItems);
+    // console.log("this is activeItems", activeItems);
 
     return (
         <div>
@@ -38,7 +38,7 @@ export default function ActiveList() {
             ) : activeItems.length < 1 ? (
                 <p className="text-center m-5"> Nothing to display ☹️ </p>
             ) : (
-                activeItems.map((todo) => (
+                activeItems.map((todoItem) => (
                     <TodoItem
                         handleEdit={(prevValue) => {
                             setOpenModal(true);
@@ -47,12 +47,12 @@ export default function ActiveList() {
                                 id: prevValue.id,
                             });
                         }}
-                        data={todo}
-                        key={todo.id}// use as unique identifier
+                        data={todoItem}
+                        key={todoItem.id}// use as unique identifier
                     />
                 ))
             )}
-
+            <UpdateItem open={openModal} setOpen={setOpenModal} item={updateData.item} id={updateData.id} />
         </div>
     );
 }
