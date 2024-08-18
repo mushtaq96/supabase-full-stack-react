@@ -1,7 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import supabase from "../supabaseClient";
 import { ItemsContext } from "../ItemsContext";
-import { useNavigate } from "react-router-dom";
 import ActiveList from "../components/ActiveList";
 import DoneList from "../components/DoneList";
 
@@ -10,7 +8,6 @@ export default function Home() {
   const [item, setItem] = useState("");
   const [tab, setTab] = useState("active");
   const { addItem, adding } = useContext(ItemsContext);
-  const navigate = useNavigate();
 
 
   const handleAddItem = async (e) => {
@@ -33,7 +30,7 @@ export default function Home() {
           <div className="card">
             <div className="card-header">
               <form onSubmit={handleAddItem} className="d-flex">
-                <div className="col flex-auto">
+                <div className="col flex-auto" style={{ marginRight: 10 }}>
                   <input
                     type="text"
                     className="form-control form-control-lg"
@@ -73,12 +70,12 @@ export default function Home() {
                   </button>
                 </div>
               </div>
-              {/*   
-                <div>{tab === "active" ? <ActiveList /> : <DoneList />}</div> */}
+
+              <div>{tab === "active" ? <ActiveList /> : <DoneList />}</div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
