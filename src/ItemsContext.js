@@ -116,7 +116,9 @@ export function ItemsContextProvider({ children }) {
 
             const { error } = await supabase
                 .from("todo")
-                .update({ item: item })
+                .update({
+                    item
+                })
                 .eq("user_id", user?.id)
                 .eq("id", id)
 

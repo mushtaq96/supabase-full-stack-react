@@ -52,7 +52,7 @@ export default function ActiveList() {
                     />
                 ))
             )}
-            <UpdateItem open={openModal} setOpen={setOpenModal} item={updateData.item} id={updateData.id} />
+            <UpdateItem open={openModal} setOpen={setOpenModal} existingItem={updateData.item} id={updateData.id} />
         </div>
     );
 }

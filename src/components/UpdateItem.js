@@ -1,18 +1,16 @@
 import React, { useContext, useState } from 'react';
 import { ItemsContext } from '../ItemsContext';
 
-export default function UpdateItem({ item, id, open, setOpen }) {
+export default function UpdateItem({ existingItem, id, open, setOpen }) {
     const [newItem, setNewItem] = useState('');
     const [loading, setLoading] = useState(false);
     const { updateItem } = useContext(ItemsContext);
-    // console.log(updateItem); // Should log a function
 
     const handleUpdate = async (e) => {
-        console.log('updating item,', item, id);
         e.preventDefault();
         setLoading(true);
         try {
-            await updateItem({ item, id });
+            await updateItem({ item: newItem, id });
         } catch (error) {
             console.log(error);
         } finally {
@@ -38,7 +36,7 @@ export default function UpdateItem({ item, id, open, setOpen }) {
                                                 className="form-control form-control-lg"
                                                 name="item"
                                                 required
-                                                value={newItem || item}
+                                                value={newItem || existingItem}
                                                 onChange={(e) => setNewItem(e.target.value)}
                                                 placeholder="Enter new item"
                                             />
