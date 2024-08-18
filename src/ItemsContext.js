@@ -46,8 +46,8 @@ export function ItemsContextProvider({ children }) {
                 .order("id", { ascending: false }); // sort the data so the last item comes on top;
 
             if (error) throw error; //check if there was an error fetching the data and move the execution to the catch block
-            console.log("this is type of data", typeof data)
-            console.log("this is data", data)
+            // console.log("this is type of data", typeof data)
+            // console.log("this is data", data)
             if (data) setActiveItems(data);
 
         } catch (error) {
@@ -57,7 +57,30 @@ export function ItemsContextProvider({ children }) {
         }
     };
 
+    // get all completed items by the user
+    const getInactiveItems = async () => {
+        setLoading(true);
+        try {
+            // get the user currently logged in
+            const { data: { user }, } = await supabase.auth.getUser();
 
+            const { error, data } = await supabase
+                .from("todo") //the table you want to work with
+                .select("item, done, id") //columns to select from the database
+                .eq("user_id", user?.id) //comparison function to return only data with the user id matching the current logged in user
+                .eq("done", true) //check if the done column is equal to true
+                .order("id", { ascending: false }); // sort the data so the last item comes on top
+
+            if (error) throw error; //check if there was an error fetching the data and move the execution to the catch block
+
+            if (data) setInactiveItems(data);
+
+        } catch (error) {
+            alert(error.error_description || error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     // add new row to the database
     const addItem = async (item) => {
@@ -83,9 +106,77 @@ export function ItemsContextProvider({ children }) {
         }
     };
 
+    const updateItem = async ({ item, id }) => {
+        console.log("inside ItemsContext updating item, item, id", typeof item, id);
+        setLoading(true);
+        try {
+            const { data: { user }, error: authError } = await supabase.auth.getUser();
+            console.log(user?.id); // Check if this logs the correct user ID
+            if (authError) throw authError;
 
+            const { error } = await supabase
+                .from("todo")
+                .update({ item: item })
+                .eq("user_id", user?.id)
+                .eq("id", id)
+
+            if (error) throw error;
+
+            await getActiveItems();
+        } catch (error) {
+            alert(error.error_description || error.message);
+        } finally {
+            setLoading(false);
+        };
+    }
+
+    // delete row from the database
+    const deleteItem = async (id) => {
+        try {
+            const { data: { user }, error: authError } = await supabase.auth.getUser();
+            console.log(user?.id); // Check if this logs the correct user ID
+            if (authError) throw authError;
+
+            const { error } = await supabase
+                .from("todo")
+                .delete() //delete the row
+                .eq("user_id", user?.id) //check if the item being deleted belongs to the user
+                .eq("id", id) //the id of row to delete
+
+
+            if (error) throw error;
+
+            await getInactiveItems(); //get the new completed items list
+            await getActiveItems(); //get the new active items list
+        } catch (error) {
+            alert(error.error_description || error.message);
+        }
+    };
+
+
+    // change value of done to true
+    const markAsDone = async (id) => {
+        setLoading(true);
+        try {
+            const { data: { user }, error: authError } = await supabase.auth.getUser();
+            console.log(user?.id); // Check if this logs the correct user ID
+            const { error } = await supabase
+                .from("todo")
+                .update({ done: true })
+                .eq("user_id", user?.id)
+                .eq("id", id); //match id to toggle
+
+            if (error) throw error;
+
+            await getActiveItems();
+        } catch (error) {
+            alert(error.error_description || error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
     return (
-        <ItemsContext.Provider value={{ activeItems, inactiveItems, loading, adding, logInAccount, addItem, getActiveItems }}>
+        <ItemsContext.Provider value={{ activeItems, inactiveItems, loading, adding, logInAccount, addItem, updateItem, deleteItem, getActiveItems, getInactiveItems, markAsDone }}>
             {children}
         </ItemsContext.Provider>
     );
