@@ -108,7 +108,7 @@ export default function Account({ session }) {
                 <button style={styles.secondaryButton} type="button" onClick={() => navigate("/home")}>
                     Home
                 </button>
-                <button style={styles.secondaryButton} type="button" onClick={() => supabase.auth.signOut()} disabled={true}>
+                <button style={styles.secondaryButton} type="button" onClick={() => supabase.auth.signOut()} disabled={false}>
                     Sign Out
                 </button>
             </div>
