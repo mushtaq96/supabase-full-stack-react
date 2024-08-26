@@ -1,70 +1,78 @@
-# Getting Started with Create React App
+# Todo Management System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based application integrated with Supabase for managing todo items, featuring CRUD operations with fine-grained access control via Supabase Row Level Security (RLS) policies.
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- [Project Description](#project-description)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+- [Contributing](#contributing)
+- [License](#license)
 
-### `npm start`
+## Project Description
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This project demonstrates how to build a todo management system using React for the frontend and Supabase for the backend. It showcases the integration of Supabase's Auth service for user authentication and RLS policies for securing data access.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Installation
 
-### `npm test`
+1. Clone the repository:
+    ```
+    mkdir todo-management-system
+    cd todo-management-system
+    git clone https://github.com/mushtaq96/supabase-full-stack-react.git
+    ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Install dependencies:
+    ```
+    yarn install
+    ```
 
-### `npm run build`
+3. Set up environment variables:
+    ```
+    touch .env.local
+    ```
+    Edit `.env` to include your Supabase URL and anon/public keys.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Usage
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Start the development server:
+    ```
+    yarn start
+    ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Access the application at [http://localhost:3000](http://localhost:3000).
 
-### `npm run eject`
+## Features
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- **CRUD Operations**: Create, read, update, and delete todo items.
+- **Authentication**: Secure user sessions with Supabase Auth.
+- **Access Control**: Implement RLS policies for granular data access.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Contributing
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Contributions are welcome! To contribute:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Fork the repository.
+2. Create your feature branch:
+    ```bash
+    git checkout -b feature/AmazingFeature
+    ```
+3. Commit your changes:
+    ```bash
+    git commit -m 'Add some AmazingFeature'
+    ```
+4. Push to the branch:
+    ```bash
+    git push origin feature/AmazingFeature
+    ```
+5. Open a pull request.
 
-## Learn More
+## License
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Distributed under the MIT License. See `LICENSE` for more information.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This README provides a structured overview of the project, including setup instructions, how to use the application, its features, and how to contribute. Adjust the placeholders (e.g., URLs, keys) to match your actual project details.
