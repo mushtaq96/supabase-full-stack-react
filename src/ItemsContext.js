@@ -12,7 +12,7 @@ export function ItemsContextProvider({ children }) {
 
     // function to get the current URL
     const getURL = () => {
-        let url = (process.env.NEXT_PUBLIC_SITE_URL ?? process.env.NEXT_PUBLIC_VERCEL_URL) ?? 'http://localhost:3000';
+        let url = process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000';
         // Make sure to include `https://` when not localhost.
         url = url.startsWith('http') ? url : `https://${url}`
         // Make sure to include a trailing `/`.
