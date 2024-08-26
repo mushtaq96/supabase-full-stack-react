@@ -33,7 +33,7 @@ This project demonstrates how to build a todo management system using React for 
     ```
     touch .env.local
     ```
-    Edit `.env` to include your Supabase URL and anon/public keys.
+    Edit `.env` to include your Supabase URL, anon/public keys and database url.
 
 ## Usage
 
@@ -76,3 +76,49 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ---
 
 This README provides a structured overview of the project, including setup instructions, how to use the application, its features, and how to contribute. Adjust the placeholders (e.g., URLs, keys) to match your actual project details.
+
+
+# Deployment Issues
+
+## 1. Incorrect Redirect URL
+
+The deployed site will attempt to redirect users to `http://localhost:3000`, which occurs when users sign up via a magic link. However, this redirection fails when the deployed version is hosted on Vercel.
+
+### Solution
+
+Update your Supabase configuration to use the correct domain for your deployed site:
+
+1. Log in to your Supabase dashboard (https://app.supabase.com).
+2. Navigate to your project.
+3. Go to the "Settings" tab.
+4. Scroll down to the "Authentication" section.
+5. Under "Magic Link", find the "Redirect URL" field.
+6. Change the value to your deployed site's URL, e.g., https://your-app-name.vercel.app.
+
+## 2. Fixing the Redirect URL
+
+Implement the following code to fix the redirect issue:
+
+```
+ let url = (process.env.NEXT_PUBLIC_SITE_URL ?? process.env.NEXT_PUBLIC_VERCEL_URL) ?? 'http://localhost:3000';
+```
+
+
+This solution ensures that the correct URL is used for redirection, regardless of the environment.
+
+## 3. Testing the Solution
+
+After deploying:
+
+1. Attempt to sign up via a magic link again.
+2. The link should redirect to your deployed site's URL instead of localhost.
+
+## Additional Considerations
+
+### SSL Certificate
+
+Ensure your Vercel project has an SSL certificate. You can request one in your Vercel project settings.
+
+### Environment Variables
+
+Double-check that your Supabase URL and other environment variables are correctly set in your Vercel project settings.
