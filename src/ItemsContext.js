@@ -10,13 +10,26 @@ export function ItemsContextProvider({ children }) {
     const [loading, setLoading] = useState(false);
     const [adding, setAdding] = useState(false);
 
+    // function to get the current URL
+    const getURL = () => {
+        let url = (process.env.NEXT_PUBLIC_SITE_URL ?? process.env.NEXT_PUBLIC_VERCEL_URL) ?? 'http://localhost:3000';
+        // Make sure to include `https://` when not localhost.
+        url = url.startsWith('http') ? url : `https://${url}`
+        // Make sure to include a trailing `/`.
+        url = url.endsWith('/') ? url : `${url}/`
+        return url
+    }
+
     // Authentication function for logging in new/old user with supabase magic link
     const logInAccount = async (email) => {
         setLoading(true);
         try {
             // supabase method to send the magic link to the email provided
             const { error } = await supabase.auth.signInWithOtp({
-                email
+                email,
+                options: {
+                    redirectTo: getURL(),
+                }
             });
 
             if (error) throw error; //check if there was an error fetching the data and move the execution to the catch block
